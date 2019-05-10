@@ -1,12 +1,14 @@
 package me.calebbassham.scenariomanager;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 public final class ScenarioManager {
 
-    private ScenarioManager() {}
+    private ScenarioManager() { }
 
     private static HashMap<String, Scenario> scenarios;
 
@@ -35,6 +37,24 @@ public final class ScenarioManager {
                 .filter(s -> s.getClass().equals(scenario))
                 .findFirst()
                 .orElse(null);
-}
+    }
+
+    public static CompletableFuture<Void> assignTeams(Player[] players) {
+        AssignTeams teamAssigner = scenarios.values().stream()
+                .filter(Scenario::isEnabled)
+                .filter(scenario -> scenario instanceof AssignTeams)
+                .map(scenario -> (AssignTeams) scenario)
+                .findAny()
+                .orElse(null);
+
+        if (teamAssigner == null) return CompletableFuture.completedFuture(null);
+
+        return teamAssigner.assignTeams(players);
+    }
+
+    static void reset() {
+        scenarios.values().forEach(Scenario::unregisterListeners);
+        scenarios.clear();
+    }
 
 }
