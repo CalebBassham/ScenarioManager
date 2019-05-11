@@ -15,7 +15,7 @@ public final class ScenarioManager implements Listener {
     ScenarioManager() { }
 
     private static boolean gameRunning = false;
-    private static HashMap<String, Scenario> scenarios;
+    private static HashMap<String, Scenario> scenarios = new HashMap<>();
 
     public static void register(Scenario scenario, JavaPlugin plugin) {
         scenario.setPlugin(plugin);
