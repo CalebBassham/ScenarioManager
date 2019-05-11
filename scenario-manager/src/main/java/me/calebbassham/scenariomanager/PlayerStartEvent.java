@@ -3,7 +3,7 @@ package me.calebbassham.scenariomanager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-public class PlayerStartEvent {
+public final class PlayerStartEvent {
 
     private static final HandlerList handlers = new HandlerList();
     private Player player;

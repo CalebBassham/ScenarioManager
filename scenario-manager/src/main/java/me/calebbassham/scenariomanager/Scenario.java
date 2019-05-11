@@ -14,6 +14,7 @@ public class Scenario {
 
     private final String name;
     private boolean enabled = false;
+    private boolean active = false;
     private HashSet<Listener> listeners = new HashSet<>();
 
     private SettingsManager settingsManager;
@@ -34,6 +35,33 @@ public class Scenario {
 
     public final void setEnabled(boolean enabled) {
         this.enabled = enabled;
+
+        if (enabled) {
+            if (ScenarioManager.isGameRunning()) setActive(true);
+        } else {
+            setActive(false);
+        }
+    }
+
+    /**
+     * Determines if a game is running and the scenario is enabled.
+     * @return if a game is running and the scenario is enabled
+     */
+    public final boolean isActive() {
+        return active;
+    }
+
+    public final void setActive(boolean active) {
+        if (this.active == active) return;
+        this.active = active;
+
+        if (active) {
+            this.registerListeners();
+            Bukkit.getPluginManager().callEvent(new ScenarioStartEvent(this));
+        } else {
+            Bukkit.getPluginManager().callEvent(new ScenarioStopEvent(this));
+            this.unregisterListeners();
+        }
     }
 
     protected SettingsManager getSettingsManager() {
@@ -61,6 +89,5 @@ public class Scenario {
     void setPlugin(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-
 
 }

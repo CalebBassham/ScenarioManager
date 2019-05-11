@@ -1,19 +1,19 @@
 package me.calebbassham.scenariomanager;
 
-import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class ScenarioStartEvent {
+public final class ScenarioStartEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
-    private Player[] players;
+    private Scenario scenario;
 
-    public ScenarioStartEvent(Player[] players) {
-        this.players = players;
+    ScenarioStartEvent(Scenario scenario) {
+        this.scenario = scenario;
     }
 
-    public Player[] getPlayers() {
-        return players;
+    public Scenario getScenario() {
+        return scenario;
     }
 
     public HandlerList getHandlers() {

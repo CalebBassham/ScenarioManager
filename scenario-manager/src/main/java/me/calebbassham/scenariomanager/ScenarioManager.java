@@ -10,6 +10,7 @@ public final class ScenarioManager {
 
     private ScenarioManager() { }
 
+    private static boolean gameRunning = false;
     private static HashMap<String, Scenario> scenarios;
 
     public static void register(Scenario scenario, JavaPlugin plugin) {
@@ -57,4 +58,21 @@ public final class ScenarioManager {
         scenarios.clear();
     }
 
+    public static void startGame() {
+        gameRunning = true;
+        scenarios.values().stream()
+                .filter(Scenario::isEnabled)
+                .forEach(scenario -> scenario.setActive(true));
+    }
+
+    public static void stopGame() {
+        gameRunning = false;
+        scenarios.values().stream()
+                .filter(Scenario::isActive)
+                .forEach(scenario -> scenario.setActive(false));
+    }
+
+    public static boolean isGameRunning() {
+        return gameRunning;
+    }
 }
