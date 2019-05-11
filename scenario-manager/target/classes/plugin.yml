@@ -1,0 +1,5 @@
+name: ScenarioManager
+author: Caleb Bassham
+version: 1.0.0
+api-version: "1.8"
+main: me.calebbassham.scenariomanager.BukkitPlugin
