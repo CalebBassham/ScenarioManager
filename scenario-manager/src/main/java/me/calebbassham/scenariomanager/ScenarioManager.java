@@ -1,14 +1,17 @@
 package me.calebbassham.scenariomanager;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
-public final class ScenarioManager {
+public final class ScenarioManager implements Listener {
 
-    private ScenarioManager() { }
+    ScenarioManager() { }
 
     private static boolean gameRunning = false;
     private static HashMap<String, Scenario> scenarios;
@@ -74,5 +77,12 @@ public final class ScenarioManager {
 
     public static boolean isGameRunning() {
         return gameRunning;
+    }
+
+    @EventHandler
+    public void onDisablePlugin(PluginDisableEvent e) {
+        scenarios.values().stream()
+                .filter(scenario -> scenario.getPlugin().equals(e.getPlugin()))
+                .forEach(ScenarioManager::unregister);
     }
 }

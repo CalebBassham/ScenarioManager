@@ -90,4 +90,8 @@ public class Scenario {
         this.plugin = plugin;
     }
 
+    JavaPlugin getPlugin() {
+        return this.plugin;
+    }
+
 }
