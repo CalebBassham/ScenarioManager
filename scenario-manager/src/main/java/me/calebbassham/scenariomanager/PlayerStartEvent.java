@@ -1,9 +1,10 @@
 package me.calebbassham.scenariomanager;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public final class PlayerStartEvent {
+public final class PlayerStartEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private Player player;
