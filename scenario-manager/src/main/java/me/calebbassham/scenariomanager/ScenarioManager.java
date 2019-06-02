@@ -1,5 +1,7 @@
 package me.calebbassham.scenariomanager;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 public final class ScenarioManager implements Listener {
 
@@ -16,6 +19,8 @@ public final class ScenarioManager implements Listener {
 
     private static boolean gameRunning = false;
     private static HashMap<String, Scenario> scenarios = new HashMap<>();
+
+    private static Supplier<Collection<World>> worldsSupplier = Bukkit::getWorlds;
 
     public static void register(Scenario scenario, JavaPlugin plugin) {
         scenario.setPlugin(plugin);
@@ -82,6 +87,18 @@ public final class ScenarioManager implements Listener {
 
     public static Collection<Scenario> getScenarios() {
         return scenarios.values();
+    }
+
+    public static Collection<World> getWorlds() {
+        return worldsSupplier.get();
+    }
+
+    public static boolean isWorld(World world) {
+        return getWorlds().contains(world);
+    }
+
+    public static void setWorldsSupplier(Supplier<Collection<World>> supplier) {
+        worldsSupplier = supplier;
     }
 
     @EventHandler
