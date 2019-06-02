@@ -26,7 +26,7 @@ public class Scenario {
     }
 
     public Scenario() {
-        this.name = String.join(" ", this.getClass().getCanonicalName().split("[A-Z]+([^A-Z]+)?"));
+        this.name = String.join(" ", this.getClass().getSimpleName().split("[A-Z]+([^A-Z]+)?"));
 
         if (this instanceof Listener) this.listeners.add((Listener) this);
     }
