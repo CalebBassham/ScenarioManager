@@ -25,7 +25,10 @@ public class ScenarioManagerCmd implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                String scenarios = ScenarioManager.getScenarios().stream().map(Scenario::getName).collect(Collectors.joining(", "));
+                String scenarios = ScenarioManager.getScenarios().stream()
+                        .map(Scenario::getName)
+                        .sorted()
+                        .collect(Collectors.joining(", "));
                 sender.sendMessage(getPrefix() + scenarios);
                 return true;
             }
