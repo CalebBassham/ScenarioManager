@@ -6,7 +6,10 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Scenario {
 
@@ -26,9 +29,21 @@ public class Scenario {
     }
 
     public Scenario() {
-        this.name = String.join(" ", this.getClass().getSimpleName().split("[A-Z]+([^A-Z]+)?"));
+        this.name = getNameFromClass(getClass());
 
         if (this instanceof Listener) this.listeners.add((Listener) this);
+    }
+
+    private String getNameFromClass(Class clazz) {
+        ArrayList<String> nameParts = new ArrayList<>();
+        Pattern p = Pattern.compile("[A-Z]+(?:[^A-Z]+)?");
+        Matcher m = p.matcher(clazz.getSimpleName());
+        while (m.find()) {
+            String str = m.group(0);
+            if (str.equalsIgnoreCase("setting")) continue;
+            nameParts.add(str);
+        }
+        return String.join(" ", nameParts);
     }
 
     public String getName() {
