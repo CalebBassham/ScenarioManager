@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -103,8 +104,9 @@ public final class ScenarioManager implements Listener {
 
     @EventHandler
     public void onDisablePlugin(PluginDisableEvent e) {
-        scenarios.values().stream()
-                .filter(scenario -> scenario.getPlugin().equals(e.getPlugin()))
-                .forEach(ScenarioManager::unregister);
+        Iterator iter = scenarios.keySet().iterator();
+        while (iter.hasNext()) {
+            unregister((String) iter.next());
+        }
     }
 }

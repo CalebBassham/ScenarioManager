@@ -1,5 +1,3 @@
 .idea
 *.iml
-deploy
-Makefile
 target
